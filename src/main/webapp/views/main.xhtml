@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:jsp="http://xmlns.jcp.org/jsf/html"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+<h:head>
+    <link rel="shortcut icon" href="#{resource['img/sticker.png']}"/>
+    <title>Я хочу спать</title>
+    <h:outputStylesheet library = "css" name = "styles.css"  />
+    <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+</h:head>
+<h:body>
+<table id="document">
+    <tr>
+        <td id="before-student"/>
+        <td id="header" colspan="3">
+            <h1 id="name">Дагаев Даниил Сергеевич P32141</h1>
+            <p id="variant">Вариант 14177</p>
+        </td>
+        <td id="after-student"/>
+    </tr>
+    <tr>
+        <td class="left-col-1"/>
+
+        <td class="left-col-2"/>
+        <td class="center-col">
+            <div id="chart" style="width: 500px; height: 500px; margin: 0 auto;">
+            </div>
+            <h:form>
+                <p:panel header="Input">
+                    <h:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <h:inputHidden id="x" value="#{dotWorkerBean.newDot.x}"/>
+
+                                <h:outputLabel class="form-coordinate-x__label" value="Choose coordinate x:"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[0]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[0]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[1]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[1]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[2]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[2]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[3]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[3]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[4]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[4]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[5]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[5]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[6]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[6]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[7]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[7]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[8]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[8]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[9]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[9]}"/>
+                                <p:selectBooleanCheckbox value="#{dotWorkerBean.newDot.booleanX[10]}" class="form-coordinate-x__input"
+                                                         itemLabel="#{dotWorkerBean.newDot.valueX[10]}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                Y(-5;5):
+                            </p:column>
+                            <p:column>
+                                <p:inputText autocomplete="off" id="input1"  value="#{dotWorkerBean.newDot.y}" onchange="#{dotWorkerBean.newDot.y}"
+                                             validatorMessage="Значение координаты Y должно принадлежать диапазону [-5;5]"
+                                             converterMessage="Некорректное значение координаты Y!"
+                                oninput="remake()">
+                                    <jsp:outputText id="error" class="error" value="#{dotWorkerBean.newDot.errorString}"></jsp:outputText>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                R(0.1;3):
+                            </p:column>
+                            <p:column>
+                                <p:spinner id="input2" value="${dotWorkerBean.newDot.r}" min="0.1" max="3" stepFactor="0.1"/>
+                            </p:column>
+                        </p:row>
+                    </h:panelGrid>
+                    <p:commandButton id="out_button"
+                                     value="Submit"
+                                     ajax="false"
+                                     action="#{dotWorkerBean.doCode}"/>
+                    <p:commandButton id="clear_button"
+                                     value="Clear"
+                                     ajax="false"
+                                     action="#{dotWorkerBean.clearTable()}"/>
+                </p:panel>
+            </h:form>
+            <h:form style="text-align: center; margin: 25px">
+                <p:button outcome="to_index" value="Start page" icon="pi"/>
+            </h:form>
+            <h:panelGroup id="entriesTable">
+                <div id="table_block">
+                <h:dataTable id="table_out_data" value="#{dotWorkerBean.pointsTable}" var="dot"
+                             style="width: 100%; border-width:2px; margin: 0 auto; border-color:black; border-style:solid;">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{dot.x}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{dot.y}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{dot.r}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Result</f:facet>
+                        #{dot.res}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">TimeWork</f:facet>
+                        #{dot.timework}
+                    </h:column>
+                </h:dataTable>
+                </div>
+            </h:panelGroup>
+        </td>
+        <td class="right-col-2"/>
+        <td class="right-col-1"/>
+    </tr>
+    <tr id="center-row">
+        <td class="left-col-1"/>
+        <td class="center-col" id="output-container" colspan="3">
+
+        </td>
+        <td class="right-col-1"/>
+    </tr>
+</table>
+<h:outputScript library="scripts" name="draw.js"/>
+
+</h:body>
+
+</html>
