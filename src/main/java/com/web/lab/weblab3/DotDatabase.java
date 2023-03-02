@@ -24,8 +24,8 @@ public class DotDatabase {
 
     private void initConnection() throws NamingException {
         String url = "jdbc:postgresql://localhost:5432/studs";
-        String user = "s339923";
-        String password = "9vYrrNRERIyafAsm";
+        String user = "loginDB";
+        String password = "password";
 
         try {
             connection = DriverManager.getConnection(url, user, password);
